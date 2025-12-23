@@ -133,15 +133,15 @@ def remap_bonap_colors(
     # Note: Diagonal hatching removal disabled - minimal visual impact and avoids processing time
 
     # Crop to focus on continental US area (removes most of Canada, Alaska, and ocean)
-    # Based on the typical BONAP map dimensions (1052x642), crop to approximately:
-    # - Top: ~350px (removes northern Canada and Alaska)
-    # - Bottom: ~620px (keeps US and northern Mexico)
-    # - Left: ~350px (removes left margin and most of Pacific Ocean)
-    # - Right: ~1000px (removes right margin and most of Atlantic Ocean)
-    crop_top = int(height * 0.55)  # Start at about 55% down (removes Canada/Alaska)
-    crop_bottom = int(height * 0.97)  # Keep to 97% (removes bottom margin)
-    crop_left = int(width * 0.33)  # Start at 33% right (removes left margin and ocean)
-    crop_right = int(width * 0.95)  # Keep to 95% (removes right margin and ocean)
+    # Based on the pink box in the reference image, crop to the continental US
+    # - Top: Just above US-Canada border (around 50% down)
+    # - Bottom: Extended to include more southern area (around 100%)
+    # - Left: West coast of US, cropped 10% more (around 33% right)
+    # - Right: East coast of US, cropped 10% more (around 73% right)
+    crop_top = int(height * 0.50)  # Start just above US-Canada border
+    crop_bottom = int(height * 1.00)  # End at full bottom (extended 5%)
+    crop_left = int(width * 0.33)  # Start at west coast (cropped 10% more)
+    crop_right = int(width * 0.73)  # End at east coast (cropped 10% more)
 
     output_array = output_array[crop_top:crop_bottom, crop_left:crop_right]
     print(f"✓ Cropped to {output_array.shape[1]}x{output_array.shape[0]} (focused on continental US)")
